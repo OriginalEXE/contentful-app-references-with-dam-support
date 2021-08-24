@@ -4,23 +4,36 @@
   "private": true,
   "dependencies": {
     "@contentful/app-sdk": "^3.39.0",
+    "@contentful/default-field-editors": "^0.9.10",
+    "@contentful/field-editor-reference": "^2.20.6",
     "@contentful/field-editor-single-line": "^0.15.2",
     "@contentful/field-editor-test-utils": "^0.17.1",
     "@contentful/forma-36-fcss": "^0.3.4",
     "@contentful/forma-36-react-components": "^3.97.0",
     "@contentful/forma-36-tokens": "^0.11.1",
+    "@contentful/mimetype": "^2.1.2",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.2.1",
+    "@types/deep-equal": "^1.0.1",
     "@types/jest": "^27.0.1",
     "@types/node": "^16.7.1",
     "@types/react": "^17.0.19",
     "@types/react-dom": "^17.0.9",
+    "array-move": "^3.0.0",
+    "constate": "^3.3.0",
     "cross-env": "^7.0.3",
+    "deep-equal": "^2.0.5",
+    "emotion": "^10.0.17",
+    "lodash": "^4.17.21",
+    "lodash-es": "^4.17.21",
+    "moment": "^2.29.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
-    "typescript": "^4.3.5"
+    "react-sortable-hoc": "^2.0.0",
+    "typescript": "^4.3.5",
+    "zod": "^3.8.1"
   },
   "scripts": {
     "start": "cross-env BROWSER=none react-scripts start",
@@ -46,7 +59,8 @@
     ]
   },
   "devDependencies": {
-    "@contentful/app-scripts": "^0.12.19"
+    "@contentful/app-scripts": "^0.12.19",
+    "@types/lodash": "^4.14.172"
   },
   "homepage": "."
 }
