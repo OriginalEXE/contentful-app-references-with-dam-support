@@ -34,6 +34,7 @@ const Field: React.FC<FieldProps> = (props) => {
       name={sdk.field.id}
       showFocusBar={false}
       renderHeading={() => null}
+      renderHelpText={() => null}
     >
       <DefaultField
         sdk={sdk}
