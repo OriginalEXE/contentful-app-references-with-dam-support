@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import * as React from 'react';
 import { AssetCard, EntryCard } from '@contentful/forma-36-react-components';
 import { Action, Asset, FieldExtensionSDK, ViewType } from '../../types';
@@ -46,7 +47,9 @@ export function FetchingWrappedAssetCard(props: FetchingWrappedAssetCardProps) {
   }, [asset]);
 
   const onEdit = async () => {
-    const { slide } = await props.sdk.navigator.openAsset(props.assetId, { slideIn: true });
+    const { slide } = await props.sdk.navigator.openAsset(props.assetId, {
+      slideIn: true,
+    });
     props.onAction &&
       props.onAction({
         entity: 'Asset',
@@ -60,7 +63,12 @@ export function FetchingWrappedAssetCard(props: FetchingWrappedAssetCardProps) {
   const onRemove = () => {
     props.onRemove();
     props.onAction &&
-      props.onAction({ entity: 'Asset', type: 'delete', id: props.assetId, contentTypeId: '' });
+      props.onAction({
+        entity: 'Asset',
+        type: 'delete',
+        id: props.assetId,
+        contentTypeId: '',
+      });
   };
 
   return React.useMemo(() => {
@@ -139,7 +147,7 @@ export function FetchingWrappedAssetCard(props: FetchingWrappedAssetCardProps) {
       const renderedCustomCard = props.renderCustomCard(
         customProps,
         {} as LinkActionsProps,
-        renderDefaultCard
+        renderDefaultCard,
       );
       // Only `false` indicates to render the original card. E.g. `null` would result in no card.
       if (renderedCustomCard !== false) {
