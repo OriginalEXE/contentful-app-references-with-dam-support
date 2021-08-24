@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import * as React from 'react';
 import { useMemo } from 'react';
 import {
@@ -10,7 +11,11 @@ import {
   NavigatorSlideInfo,
 } from '../../types';
 import { LinkActions, LinkActionsProps } from './LinkActions';
-import { createEntity, selectMultipleEntities, selectSingleEntity } from './helpers';
+import {
+  createEntity,
+  selectMultipleEntities,
+  selectSingleEntity,
+} from './helpers';
 import { EditorPermissions } from '../../common/useEditorPermissions';
 
 type LinkEntityActionsProps = {
@@ -26,8 +31,18 @@ type LinkEntityActionsProps = {
   itemsLength?: number;
 };
 
-export function useLinkActionsProps(props: LinkEntityActionsProps): LinkActionsProps {
-  const { sdk, editorPermissions, entityType, canLinkMultiple, isDisabled, actionLabels, itemsLength } = props;
+export function useLinkActionsProps(
+  props: LinkEntityActionsProps,
+): LinkActionsProps {
+  const {
+    sdk,
+    editorPermissions,
+    entityType,
+    canLinkMultiple,
+    isDisabled,
+    actionLabels,
+    itemsLength,
+  } = props;
 
   const maxLinksCount = editorPermissions.validations.numberOfLinks?.max;
   const value = sdk.field.getValue();
@@ -36,7 +51,11 @@ export function useLinkActionsProps(props: LinkEntityActionsProps): LinkActionsP
   const isEmpty = linkCount === 0;
 
   const onCreated = React.useCallback(
-    (entity: Entry | Asset, index = itemsLength, slide?: NavigatorSlideInfo) => {
+    (
+      entity: Entry | Asset,
+      index = itemsLength,
+      slide?: NavigatorSlideInfo,
+    ) => {
       props.onCreate(entity.sys.id, index);
       props.onAction &&
         props.onAction({
@@ -47,13 +66,13 @@ export function useLinkActionsProps(props: LinkEntityActionsProps): LinkActionsP
           index,
         });
     },
-    [entityType, props.onCreate, props.onAction]
+    [entityType, props.onCreate, props.onAction],
   );
   const onLinkedExisting = React.useCallback(
     (entities: Array<Entry | Asset>, index = itemsLength) => {
       props.onLink(
         entities.map((item) => item.sys.id),
-        index
+        index,
       );
       entities.forEach((entity, i) => {
         props.onAction &&
@@ -65,19 +84,23 @@ export function useLinkActionsProps(props: LinkEntityActionsProps): LinkActionsP
           });
       });
     },
-    [entityType, props.onLink, props.onAction]
+    [entityType, props.onLink, props.onAction],
   );
 
   const onCreate = React.useCallback(
     async (contentTypeId?: string, index?: number) => {
-      const { entity, slide } = await createEntity({ sdk, entityType, contentTypeId });
+      const { entity, slide } = await createEntity({
+        sdk,
+        entityType,
+        contentTypeId,
+      });
       if (!entity) {
         return;
       }
 
       onCreated(entity, index, slide);
     },
-    [sdk, entityType, onCreated]
+    [sdk, entityType, onCreated],
   );
 
   const onLinkExisting = React.useCallback(
@@ -93,7 +116,7 @@ export function useLinkActionsProps(props: LinkEntityActionsProps): LinkActionsP
 
       onLinkedExisting([entity], index);
     },
-    [sdk, entityType, onLinkedExisting]
+    [sdk, entityType, onLinkedExisting],
   );
 
   const onLinkSeveralExisting = React.useCallback(
@@ -109,7 +132,7 @@ export function useLinkActionsProps(props: LinkEntityActionsProps): LinkActionsP
       }
       onLinkedExisting(entities, index);
     },
-    [sdk, entityType, onLinkedExisting]
+    [sdk, entityType, onLinkedExisting],
   );
 
   return useMemo(
@@ -145,7 +168,7 @@ export function useLinkActionsProps(props: LinkEntityActionsProps): LinkActionsP
       onCreated,
       onLinkedExisting,
       itemsLength,
-    ]
+    ],
   );
 }
 

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useMemo, useState } from 'react';
 import { useContentTypePermissions } from './useContentTypePermissions';
 import { ContentType, EntityType, FieldExtensionSDK } from '../types';
@@ -14,14 +15,14 @@ export type EditorPermissionsProps = {
 
 export function useEditorPermissions(props: EditorPermissionsProps) {
   const { sdk, entityType, parameters } = props;
-  const validations = useMemo(() => fromFieldValidations(props.sdk.field), [props.sdk.field]);
+  const validations = useMemo(
+    () => fromFieldValidations(props.sdk.field),
+    [props.sdk.field],
+  );
   const [canCreateEntity, setCanCreateEntity] = useState(true);
   const [canLinkEntity, setCanLinkEntity] = useState(true);
-  const {
-    creatableContentTypes,
-    readableContentTypes,
-    availableContentTypes,
-  } = useContentTypePermissions({ ...props, validations });
+  const { creatableContentTypes, readableContentTypes, availableContentTypes } =
+    useContentTypePermissions({ ...props, validations });
   const { canPerformAction } = useAccessApi(sdk.access);
 
   useEffect(() => {

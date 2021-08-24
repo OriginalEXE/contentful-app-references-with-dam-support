@@ -1,3 +1,5 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable react-hooks/exhaustive-deps */
 import * as React from 'react';
 import { BaseExtensionSDK, Entry, Asset, ScheduledAction } from '../types';
 import constate from 'constate';
@@ -96,7 +98,7 @@ function useEntitiesStore(props: { sdk: BaseExtensionSDK }) {
           return [];
         });
     },
-    [props.sdk.space, state.scheduledActions]
+    [props.sdk.space, state.scheduledActions],
   );
 
   const loadEntry = React.useCallback(
@@ -111,7 +113,7 @@ function useEntitiesStore(props: { sdk: BaseExtensionSDK }) {
           dispatch({ type: 'set_entry_failed', id });
         });
     },
-    [props.sdk.space]
+    [props.sdk.space],
   );
 
   const loadAsset = React.useCallback(
@@ -126,7 +128,7 @@ function useEntitiesStore(props: { sdk: BaseExtensionSDK }) {
           dispatch({ type: 'set_asset_failed', id });
         });
     },
-    [props.sdk.space]
+    [props.sdk.space],
   );
 
   const getOrLoadAsset = React.useCallback(
@@ -136,7 +138,7 @@ function useEntitiesStore(props: { sdk: BaseExtensionSDK }) {
       }
       return loadAsset(id);
     },
-    [state.assets, loadAsset]
+    [state.assets, loadAsset],
   );
 
   const getOrLoadEntry = React.useCallback(
@@ -146,7 +148,7 @@ function useEntitiesStore(props: { sdk: BaseExtensionSDK }) {
       }
       return loadEntry(id);
     },
-    [state.entries, loadEntry]
+    [state.entries, loadEntry],
   );
 
   React.useEffect(() => {
@@ -159,8 +161,8 @@ function useEntitiesStore(props: { sdk: BaseExtensionSDK }) {
         if (state.entries[id] && state.entries['id'] !== 'failed') {
           listeners.push(
             onEntityChanged('Entry', id, (entry: Entry) =>
-              dispatch({ type: 'set_entry', id, entry })
-            )
+              dispatch({ type: 'set_entry', id, entry }),
+            ),
           );
         }
       });
@@ -168,8 +170,8 @@ function useEntitiesStore(props: { sdk: BaseExtensionSDK }) {
         if (state.assets[id] && state.assets['id'] !== 'failed') {
           listeners.push(
             onEntityChanged('Asset', id, (asset: Asset) =>
-              dispatch({ type: 'set_asset', id, asset })
-            )
+              dispatch({ type: 'set_asset', id, asset }),
+            ),
           );
         }
       });
@@ -177,23 +179,30 @@ function useEntitiesStore(props: { sdk: BaseExtensionSDK }) {
       return () => listeners.forEach((off) => off());
     }
 
-    return props.sdk.navigator.onSlideInNavigation(({ oldSlideLevel, newSlideLevel }) => {
-      if (oldSlideLevel > newSlideLevel) {
-        Object.keys(state.entries).map((id) => {
-          if (state.entries[id] && state.entries[id] !== 'failed') {
-            loadEntry(id);
-          }
-        });
-        Object.keys(state.assets).map((id) => {
-          if (state.assets[id] && state.assets[id] !== 'failed') {
-            loadAsset(id);
-          }
-        });
-      }
-    }) as { (): void };
+    return props.sdk.navigator.onSlideInNavigation(
+      ({ oldSlideLevel, newSlideLevel }) => {
+        if (oldSlideLevel > newSlideLevel) {
+          Object.keys(state.entries).map((id) => {
+            if (state.entries[id] && state.entries[id] !== 'failed') {
+              loadEntry(id);
+            }
+          });
+          Object.keys(state.assets).map((id) => {
+            if (state.assets[id] && state.assets[id] !== 'failed') {
+              loadAsset(id);
+            }
+          });
+        }
+      },
+    ) as { (): void };
   }, [props.sdk, state.assets, state.entries]);
 
-  return { getOrLoadEntry, getOrLoadAsset, loadEntityScheduledActions, ...state };
+  return {
+    getOrLoadEntry,
+    getOrLoadAsset,
+    loadEntityScheduledActions,
+    ...state,
+  };
 }
 
 const [EntityProvider, useEntities] = constate(useEntitiesStore);

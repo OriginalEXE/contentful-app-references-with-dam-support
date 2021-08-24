@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import * as React from 'react';
 import { EntryCard } from '@contentful/forma-36-react-components';
 import {

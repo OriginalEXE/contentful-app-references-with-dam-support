@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-redeclare */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import React, { useState, useRef, useCallback, useEffect } from 'react';
@@ -55,7 +56,7 @@ type CreateEntryMenuTriggerChildProps = {
   openMenu: Function;
 };
 export type CreateEntryMenuTriggerChild = (
-  props: CreateEntryMenuTriggerChildProps
+  props: CreateEntryMenuTriggerChildProps,
 ) => React.ReactElement;
 export type CreateCustomEntryMenuItems = ({
   closeMenu,
@@ -110,12 +111,12 @@ export const CreateEntryMenuTrigger = ({
   const closeMenu = () => setOpen(false);
 
   useEffect(() => {
-   if (isOpen) {
-    setTimeout(() => {
-      textField?.current?.querySelector('input')?.focus()
-    }, 200);
-   }
-  }, [isOpen])
+    if (isOpen) {
+      setTimeout(() => {
+        textField?.current?.querySelector('input')?.focus();
+      }, 200);
+    }
+  }, [isOpen]);
 
   const handleSelect = (item: ContentType) => {
     closeMenu();
@@ -126,7 +127,7 @@ export const CreateEntryMenuTrigger = ({
       setSelecting(true);
       res.then(
         () => setSelecting(false),
-        () => setSelecting(false)
+        () => setSelecting(false),
       );
     }
   };
@@ -152,7 +153,7 @@ export const CreateEntryMenuTrigger = ({
         closeMenu();
       }
     },
-    [wrapper]
+    [wrapper],
   );
 
   useGlobalMouseUp(mouseUpHandler);
@@ -172,10 +173,15 @@ export const CreateEntryMenuTrigger = ({
 
   const isSearchable = contentTypes.length > MAX_ITEMS_WITHOUT_SEARCH;
   const maxDropdownHeight = suggestedContentTypeId ? 300 : 250;
-  const suggestedContentType = contentTypes.find((ct) => ct.sys.id === suggestedContentTypeId);
+  const suggestedContentType = contentTypes.find(
+    (ct) => ct.sys.id === suggestedContentTypeId,
+  );
   const filteredContentTypes = contentTypes.filter(
     (ct) =>
-      !searchInput || get(ct, 'name', 'Untitled').toLowerCase().includes(searchInput.toLowerCase())
+      !searchInput ||
+      get(ct, 'name', 'Untitled')
+        .toLowerCase()
+        .includes(searchInput.toLowerCase()),
   );
 
   return (
@@ -192,7 +198,8 @@ export const CreateEntryMenuTrigger = ({
           if (!dropdownWidth && ref) {
             setDropdownWidth(ref.clientWidth);
           }
-        }}>
+        }}
+      >
         {renderCustomDropdownItems && (
           <DropdownList className={styles.dropdownList} border="top">
             {renderCustomDropdownItems({ closeMenu })}
@@ -217,26 +224,33 @@ export const CreateEntryMenuTrigger = ({
             width: dropdownWidth || '',
             maxHeight: maxDropdownHeight,
           }}
-          maxHeight={maxDropdownHeight}>
+          maxHeight={maxDropdownHeight}
+        >
           {searchInput && renderSearchResultsCount(filteredContentTypes.length)}
           {suggestedContentType && !searchInput && (
             <>
-              <DropdownListItem isTitle>Suggested Content Type</DropdownListItem>
+              <DropdownListItem isTitle>
+                Suggested Content Type
+              </DropdownListItem>
               <DropdownListItem
                 testId="suggested"
-                onClick={() => handleSelect(suggestedContentType)}>
+                onClick={() => handleSelect(suggestedContentType)}
+              >
                 {get(suggestedContentType, 'name')}
               </DropdownListItem>
               <hr className={styles.separator} />
             </>
           )}
-          {!searchInput && <DropdownListItem isTitle>{contentTypesLabel}</DropdownListItem>}
+          {!searchInput && (
+            <DropdownListItem isTitle>{contentTypesLabel}</DropdownListItem>
+          )}
           {filteredContentTypes.length ? (
             filteredContentTypes.map((contentType, i) => (
               <DropdownListItem
                 testId="contentType"
                 key={`${get(contentType, 'name')}-${i}`}
-                onClick={() => handleSelect(contentType)}>
+                onClick={() => handleSelect(contentType)}
+              >
                 {get(contentType, 'name', 'Untitled')}
               </DropdownListItem>
             ))

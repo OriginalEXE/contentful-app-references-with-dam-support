@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import * as React from 'react';
 import arrayMove from 'array-move';
 import { ReferenceValue, EntityType, ContentType } from '../types';
@@ -58,30 +59,35 @@ function Editor(props: EditorProps) {
     );
   }, [props.items]);
 
-  const onSortStart: SortStartHandler = useCallback((_, event) => event.preventDefault(), []);
+  const onSortStart: SortStartHandler = useCallback(
+    (_, event) => event.preventDefault(),
+    [],
+  );
   const onSortEnd: SortEndHandler = useCallback(
     ({ oldIndex, newIndex }) => {
       const newItems = arrayMove(items, oldIndex, newIndex);
       setValue(newItems);
     },
-    [items, setValue]
+    [items, setValue],
   );
   const onMove = useCallback(
     (oldIndex, newIndex) => {
       const newItems = arrayMove(items, oldIndex, newIndex);
       setValue(newItems);
     },
-    [items, setValue]
+    [items, setValue],
   );
 
   const onCreate = useCallback(
-    (id: string, index?: number) => onLinkOrCreate(setValue, entityType, items, [id], index),
-    [setValue, items, entityType]
+    (id: string, index?: number) =>
+      onLinkOrCreate(setValue, entityType, items, [id], index),
+    [setValue, items, entityType],
   );
 
   const onLink = useCallback(
-    (ids: string[], index?: number) => onLinkOrCreate(setValue, entityType, items, ids, index),
-    [setValue, items, entityType]
+    (ids: string[], index?: number) =>
+      onLinkOrCreate(setValue, entityType, items, ids, index),
+    [setValue, items, entityType],
   );
 
   const linkActionsProps = useLinkActionsProps({
@@ -98,7 +104,7 @@ function Editor(props: EditorProps) {
       props.renderCustomCard
         ? props.renderCustomCard(cardProps, linkActionsProps, renderDefaultCard)
         : false,
-    [linkActionsProps]
+    [linkActionsProps],
   );
 
   return (
@@ -110,7 +116,10 @@ function Editor(props: EditorProps) {
         onMove,
         renderCustomCard: props.renderCustomCard && customCardRenderer,
       })}
-      <LinkEntityActions renderCustomActions={props.renderCustomActions} {...linkActionsProps} />
+      <LinkEntityActions
+        renderCustomActions={props.renderCustomActions}
+        {...linkActionsProps}
+      />
     </>
   );
 }
@@ -119,7 +128,7 @@ export function MultipleReferenceEditor(
   props: ReferenceEditorProps & {
     entityType: EntityType;
     children: (props: ReferenceEditorProps & ChildProps) => React.ReactElement;
-  }
+  },
 ) {
   const allContentTypes = props.sdk.space.getCachedContentTypes();
 

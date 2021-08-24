@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import * as React from 'react';
 import { ContentType, EntityType, ReferenceValue } from '../types';
 import { LinkEntityActions } from '../components';
@@ -27,15 +28,16 @@ function Editor(props: EditorProps) {
   const editorPermissions = useEditorPermissions(props);
 
   const onCreate = useCallback(
-    (id: string) => void setValue({ sys: { type: 'Link', linkType: entityType, id } }),
-    [setValue, entityType]
+    (id: string) =>
+      void setValue({ sys: { type: 'Link', linkType: entityType, id } }),
+    [setValue, entityType],
   );
   const onLink = useCallback(
     (ids: string[]) => {
       const [id] = ids;
       setValue({ sys: { type: 'Link', linkType: entityType, id } });
     },
-    [setValue, entityType]
+    [setValue, entityType],
   );
 
   const linkActionsProps = useLinkActionsProps({
@@ -51,12 +53,15 @@ function Editor(props: EditorProps) {
       props.renderCustomCard
         ? props.renderCustomCard(cardProps, linkActionsProps, renderDefaultCard)
         : false,
-    [linkActionsProps]
+    [linkActionsProps],
   );
 
   if (!props.entityId) {
     return (
-      <LinkEntityActions renderCustomActions={props.renderCustomActions} {...linkActionsProps} />
+      <LinkEntityActions
+        renderCustomActions={props.renderCustomActions}
+        {...linkActionsProps}
+      />
     );
   }
 
@@ -70,7 +75,7 @@ export function SingleReferenceEditor(
   props: ReferenceEditorProps & {
     entityType: EntityType;
     children: (props: ChildProps) => React.ReactElement;
-  }
+  },
 ) {
   const allContentTypes = props.sdk.space.getCachedContentTypes();
 
