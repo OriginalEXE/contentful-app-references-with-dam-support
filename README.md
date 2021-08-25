@@ -10,7 +10,7 @@ By default, Contentful will display the first image asset it finds attached to a
 
 - Supports only Bynder (the official Bynder app from Contentful's marketplace), let me know if you need support for some other DAM
 - Due to the limitations of how field-level apps are implemented in Contentful (iframe), re-implementation of the reference field loses its appeal somewhat because dropdowns triggered inside of the field are potentially cut off and one has to scroll to reach options within it
-- Current reference default field editor was not extendable enough to add supprot for custom asset thumbnail so the whole package had to be basically copy-pasted into this project and then customized - this could be improved by Contentful by allowing custom asset thumbnail component passing as a prop
+- Current reference default field editor was not extendable enough to add support for custom asset thumbnail so the whole package had to be basically copy-pasted into this project and then customized - this could be improved by Contentful by allowing custom asset thumbnail component passing as a prop
 
 ## Installation:
 
